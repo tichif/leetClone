@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar';
+import AuthModal from '@/components/Modals/AuthModal';
 
 const AuthPage = () => {
   return (
@@ -8,6 +9,7 @@ const AuthPage = () => {
         <div className='flex items-center justify-center h-[calc(100vh-5rem)] pointer-events-none select-none'>
           <img src='/hero.png' alt='Hero image' />
         </div>
+        <AuthModal />
       </div>
     </div>
   );
