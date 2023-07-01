@@ -1,6 +1,15 @@
+import { useSetRecoilState } from 'recoil';
+
+import { authModalState } from '@/atoms/AuthModalAtom';
+
 type Props = {};
 
 const Register = (props: Props) => {
+  const setAuthModalSate = useSetRecoilState(authModalState);
+
+  function handleClick() {
+    setAuthModalSate((prev) => ({ ...prev, type: 'login' }));
+  }
   return (
     <form className='space-y-6 px-6 pb-6'>
       <h3 className='text-xl font-medium text-white'>Register to LeeClone</h3>
@@ -57,7 +66,11 @@ const Register = (props: Props) => {
       </button>
       <div className='text-sm font-medium text-gray-500'>
         Already Registered?{' '}
-        <a href='#' className='text-blue-700 hover:underline'>
+        <a
+          href='#'
+          className='text-blue-700 hover:underline'
+          onClick={handleClick}
+        >
           Sign In
         </a>
       </div>

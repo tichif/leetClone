@@ -1,8 +1,16 @@
-import React from 'react';
+import { useSetRecoilState } from 'recoil';
+
+import { authModalState } from '@/atoms/AuthModalAtom';
 
 type Props = {};
 
 const SignIn = (props: Props) => {
+  const setAuthModalSate = useSetRecoilState(authModalState);
+
+  function handleClick(type: 'login' | 'register' | 'forgotPassword') {
+    setAuthModalSate((prev) => ({ ...prev, type }));
+  }
+
   return (
     <form className='space-y-6 px-6 pb-6'>
       <h3 className='text-xl font-medium text-white'>Sign in to LeeClone</h3>
@@ -46,13 +54,18 @@ const SignIn = (props: Props) => {
         <a
           href='#'
           className='text-sm block text-brand-orange hover:underline w-full text-right'
+          onClick={() => handleClick('forgotPassword')}
         >
           Forgot password
         </a>
       </button>
       <div className='text-sm font-medium text-gray-500'>
         Not Registered?{' '}
-        <a href='#' className='text-blue-700 hover:underline'>
+        <a
+          href='#'
+          className='text-blue-700 hover:underline'
+          onClick={() => handleClick('register')}
+        >
           Create account
         </a>
       </div>
