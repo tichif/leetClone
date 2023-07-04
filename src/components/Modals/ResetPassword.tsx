@@ -14,7 +14,7 @@ const ResetPassword = (props: Props) => {
   return (
     <form className='space-y-6 px-6 pb-6'>
       <h3 className='text-xl font-medium text-white'>Reset Password</h3>
-      <p className='text-white' text-sm>
+      <p className='text-white text-sm'>
         Forgotten password ? Enter your email below, and we&apos;ll send you an
         e-mail allowing you to reset it.{' '}
       </p>

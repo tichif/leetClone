@@ -1,17 +1,73 @@
 import { useSetRecoilState } from 'recoil';
+import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useRouter } from 'next/router';
 
 import { authModalState } from '@/atoms/AuthModalAtom';
+import { auth } from '@/firebase/firebase';
 
 type Props = {};
 
 const Register = (props: Props) => {
   const setAuthModalSate = useSetRecoilState(authModalState);
+  const router = useRouter();
+
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
+
+  const [inputs, setInputs] = useState({
+    email: '',
+    name: '',
+    password: '',
+  });
+
+  function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
+    setInputs((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  }
+
+  async function submitHandler(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!inputs.name || !inputs.email || !inputs.password) {
+      return alert('All fields are required');
+    }
+
+    try {
+      const user = await createUserWithEmailAndPassword(
+        inputs.email,
+        inputs.password
+      );
+
+      if (!user) {
+        return;
+      }
+
+      setInputs({
+        email: '',
+        name: '',
+        password: '',
+      });
+      router.push('/dashboard');
+    } catch (error: any) {
+      alert(error.message);
+    }
+  }
 
   function handleClick() {
     setAuthModalSate((prev) => ({ ...prev, type: 'login' }));
   }
+
+  useEffect(() => {
+    if (error) {
+      alert(error.message);
+    }
+  }, [error]);
+
   return (
-    <form className='space-y-6 px-6 pb-6'>
+    <form className='space-y-6 px-6 pb-6' onSubmit={submitHandler}>
       <h3 className='text-xl font-medium text-white'>Register to LeeClone</h3>
       <div>
         <label
@@ -21,6 +77,7 @@ const Register = (props: Props) => {
           Your email
         </label>
         <input
+          onChange={handleInputChange}
           type='email'
           name='email'
           id='email'
@@ -36,6 +93,7 @@ const Register = (props: Props) => {
           Your name
         </label>
         <input
+          onChange={handleInputChange}
           type='text'
           name='name'
           id='name'
@@ -51,6 +109,7 @@ const Register = (props: Props) => {
           Your password
         </label>
         <input
+          onChange={handleInputChange}
           type='password'
           name='password'
           id='password'
@@ -61,8 +120,9 @@ const Register = (props: Props) => {
       <button
         type='submit'
         className='w-full text-white focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-brand-orange-s'
+        disabled={loading}
       >
-        Register
+        {loading ? 'Loading...' : 'Register'}
       </button>
       <div className='text-sm font-medium text-gray-500'>
         Already Registered?{' '}
