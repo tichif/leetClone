@@ -50,7 +50,7 @@ const Register = (props: Props) => {
         name: '',
         password: '',
       });
-      router.push('/dashboard');
+      router.push('/');
     } catch (error: any) {
       alert(error.message);
     }
