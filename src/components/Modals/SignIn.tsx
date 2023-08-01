@@ -2,6 +2,7 @@ import { useSetRecoilState } from 'recoil';
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 import { authModalState } from '@/atoms/AuthModalAtom';
 import { auth } from '@/firebase/firebase';
@@ -35,7 +36,8 @@ const SignIn = (props: Props) => {
     e.preventDefault();
 
     if (!inputs.email || !inputs.password) {
-      return alert('All fields are required');
+      toast.error('All fields are required');
+      return;
     }
 
     try {
@@ -54,13 +56,13 @@ const SignIn = (props: Props) => {
       });
       router.push('/');
     } catch (error: any) {
-      alert(error.message);
+      toast.error(error.message);
     }
   }
 
   useEffect(() => {
     if (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   }, [error]);
 

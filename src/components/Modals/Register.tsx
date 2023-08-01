@@ -2,6 +2,7 @@ import { useSetRecoilState } from 'recoil';
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 import { authModalState } from '@/atoms/AuthModalAtom';
 import { auth } from '@/firebase/firebase';
@@ -32,7 +33,8 @@ const Register = (props: Props) => {
     e.preventDefault();
 
     if (!inputs.name || !inputs.email || !inputs.password) {
-      return alert('All fields are required');
+      toast.error('All fields are required');
+      return;
     }
 
     try {
@@ -52,7 +54,7 @@ const Register = (props: Props) => {
       });
       router.push('/');
     } catch (error: any) {
-      alert(error.message);
+      toast.error(error.message);
     }
   }
 
@@ -62,7 +64,7 @@ const Register = (props: Props) => {
 
   useEffect(() => {
     if (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   }, [error]);
 
