@@ -3,14 +3,19 @@ import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useSetRecoilState } from 'recoil';
 import Image from 'next/image';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 import { auth } from '@/firebase/firebase';
 import Logout from '../Buttons/Logout';
 import { authModalState } from '@/atoms/AuthModalAtom';
+import { BsList } from 'react-icons/bs';
+import Timer from '../Timer';
 
-type Props = {};
+type Props = {
+  problemPage?: boolean;
+};
 
-const TopBar = (props: Props) => {
+const TopBar = ({ problemPage }: Props) => {
   const [user] = useAuthState(auth);
 
   const setAuthModalState = useSetRecoilState(authModalState);
@@ -19,11 +24,38 @@ const TopBar = (props: Props) => {
     <>
       <nav className='relative flex h-[50px] w-full shrink-0 items-center px-5 bg-dark-layer-1 text-dark-gray-7'>
         <div
-          className={`flex w-full items-center justify-between max-w-[1200px] mx-auto`}
+          className={`flex w-full items-center justify-between ${
+            !problemPage ? 'max-w-[1200px] mx-auto' : ''
+          }`}
         >
           <Link href='/' className='h-[22px] flex-1'>
-            <Image src='/logo.png' alt='LeetClone' width={100} height={100} />
+            <Image
+              src='/logo-full.png'
+              alt='LeetClone'
+              width={100}
+              height={100}
+            />
           </Link>
+
+          {problemPage && (
+            <div className='flex items-center gap-4 flex-1 justify-center'>
+              <div className='flex items-center justify-center rounded bg-dark-fill-3 hover:bg-dark-fill-2 w-8 h-8 cursor-pointer'>
+                <FiChevronLeft />
+              </div>
+              <Link
+                href='/'
+                className='flex items-center gap-2 font-medium max-w-[170px] text-dar-gray-8 cursor-pointer'
+              >
+                <div>
+                  <BsList />
+                </div>
+                <p>Problem List</p>
+              </Link>
+              <div className='flex items-center justify-center rounded bg-dark-fill-3 hover:bg-dark-fill-2 w-8 h-8 cursor-pointer'>
+                <FiChevronRight />
+              </div>
+            </div>
+          )}
 
           <div className='flex items-center space-x-4 flex-1 justify-end'>
             <div>
@@ -52,6 +84,7 @@ const TopBar = (props: Props) => {
                 </button>
               </Link>
             )}
+            {problemPage && <Timer />}
             {user && (
               <>
                 <div className='cursor-pointer group relative'>
