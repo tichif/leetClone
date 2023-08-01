@@ -1,14 +1,15 @@
 import Split from 'react-split';
 
 import ProblemDescription from './ProblemDescription';
+import Playground from './Playground';
 
 type Props = {};
 
 const Workspace = (props: Props) => {
   return (
-    <Split className='split'>
+    <Split className='split' minSize={0}>
       <ProblemDescription />
-      <div>The code editor will be here</div>
+      <Playground />
     </Split>
   );
 };
