@@ -2,6 +2,7 @@ import { useRecoilValue } from 'recoil';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 import Navbar from '@/components/Navbar';
 import AuthModal from '@/components/Modals/AuthModal';
@@ -31,7 +32,7 @@ const AuthPage = () => {
       <div className='max-w-7xl mx-auto'>
         <Navbar />
         <div className='flex items-center justify-center h-[calc(100vh-5rem)] pointer-events-none select-none'>
-          <img src='/hero.png' alt='Hero image' />
+          <Image src='/logo.png' alt='LeetClone' width={700} height={700} />
         </div>
         {authModal.isOpen && <AuthModal />}
       </div>
