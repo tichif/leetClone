@@ -9,8 +9,12 @@ import EditorFooter from './EditorFooter';
 type Props = {};
 
 const Playground = (props: Props) => {
+  const boilerplate = `function twoSum(nums, target){
+    // Write your code here
+  };`;
+
   return (
-    <div className='flex flex-col bg-dark-layer-1 relative'>
+    <div className='flex flex-col bg-dark-layer-1 relative overflow-x-hidden'>
       <PreferencesNav />
       <Split
         className='h-[calc(100vh-94px)]'
@@ -20,6 +24,7 @@ const Playground = (props: Props) => {
       >
         <div className='w-full-overflow-auto'>
           <CodeMirror
+            value={boilerplate}
             theme={vscodeDark}
             extensions={[javascript()]}
             style={{ fontSize: 16 }}
